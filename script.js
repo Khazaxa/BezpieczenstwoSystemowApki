@@ -1,4 +1,4 @@
-// Pobieram elementy formularza i przypisuje je do zmiennych
+// Pobierz elementy formularza i przypisz je do zmiennych
 const cipherMethodSelect = document.getElementById("cipherMethod");
 const shiftAmount = document.getElementById("shiftAmount");
 const shiftLabel = document.getElementById("shiftLabel");
@@ -17,9 +17,9 @@ function caesarCipher(text, shift) {
 
         if (alphabet.includes(char)) {
             const index = alphabet.indexOf(char);
-            const newIndex = (index + shift) % alphabet.length;
+            const newIndex = (index + shift + alphabet.length) % alphabet.length;
             const encryptedChar = alphabet[newIndex];
-            result += text[i] === text[i].toLowerCase() ? encryptedChar : encryptedChar.toUpperCase();
+            result += encryptedChar;
         } else {
             result += text[i];
         }
@@ -49,7 +49,7 @@ function encrypt() {
     if (method === "ceasar") {
         const shift = parseInt(shiftAmount.value);
         if (!isNaN(shift) && shift >= 1 && shift <= 34) {
-            const textToEncrypt = inputText.value;
+            const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoóprsśtuvwxyzźż]/g, '');
             const encrypted = caesarCipher(textToEncrypt, shift);
             encryptedText.value = encrypted;
         } else {
@@ -66,7 +66,7 @@ function decrypt() {
     if (method === "ceasar") {
         const shift = parseInt(shiftAmount.value);
         if (!isNaN(shift) && shift >= 1 && shift <= 34) {
-            const textToDecrypt = inputPassword.value;
+            const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoóprsśtuvwxyzźż]/g, '');
             const decrypted = caesarCipher(textToDecrypt, -shift);
             decryptedText.value = decrypted;
         } else {
@@ -77,3 +77,4 @@ function decrypt() {
     }
 }
 
+// ...
