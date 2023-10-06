@@ -1,66 +1,54 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+    background-color: #7a7a7a;
 }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
+hr {
+    width: 100%;
+    height: 30px;
+    background-color: black;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    text-align: center;
-}
-
-.form {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-textarea {
-    width: 90%;
-    padding: 10px;
+input, textarea {
+    min-height: 100px;
+    width: 80%;
+    border: 3px solid black;
+    padding: 5px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    font-size: 20px;
+    background-color: #e1e1e1;
+}
+
+#content {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 3px;
+    border: 3px solid black;
+    border-radius: 5px;
+    font-size: x-large;
+    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-
-.wynik {
-    text-align: center;
-}
-
-#wynik-tekst {
-    font-weight: bold;
+#header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 20px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #f9f9f9;
 }
 
-#przesuniecie-deszyfrowanie{
-    width: 80%;
-    height: 100px;
+#cipherOptions {
+    margin-bottom: 10px;
+}
+
+#cipherMethodWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 10px;
 }

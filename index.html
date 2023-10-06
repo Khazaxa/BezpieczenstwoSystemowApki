@@ -1,36 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szyfr Cezara</title>
+    <title>Program Szyfrujący</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Szyfr Cezara</h1>
-        <div class="szyfrowanie">
-            <h2>Szyfrowanie</h2>
-            <label for="tekst-szyfrowanie">Tekst do szyfrowania:</label>
-            <textarea id="tekst-szyfrowanie" rows="4"></textarea>
-            <label for="przesuniecie-szyfrowanie">Przesunięcie:</label>
-            <input type="number" id="przesuniecie-szyfrowanie" min="1" value="3">
-            <button id="szyfruj">Szyfruj</button>
+    <div id="header">
+        <div id="cipherOptions">
+            <label for="cipherMethod"><strong>Metoda szyfrowania:</strong></label>
+            <select id="cipherMethod" onchange="toggleShiftAmount()">
+                <option value="ceasar">Metoda Cezara</option>
+                <option value="druga">Druga</option>
+                <option value="trzecia">Trzecia</option>
+                <option value="czwarta">Czwarta</option>
+                <!-- Dodaj inne metody szyfrowania, jeśli są potrzebne -->
+            </select>
+            <label for="shiftAmount" id="shiftLabel"><strong>Przesunięcie:</strong></label>
+            <select id="shiftAmount">
+                <!-- Generowanie opcji od 1 do 34 -->
+                <script>
+                    for (let i = 1; i <= 34; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
         </div>
-        <div class="deszyfrowanie">
-            <h2>Deszyfrowanie</h2>
-            <label for="tekst-deszyfrowanie">Tekst do deszyfrowania:</label>
-            <input type="password" id="przesuniecie-deszyfrowanie" min="1">
-             <!-- Zmiana type na "password" -->
-            <label for="przesuniecie-deszyfrowanie">Przesunięcie:</label>
-            <input type="number"  min="1" value="3">
-            <button id="deszyfruj">Deszyfruj</button>
-        </div>
-        
-        <div class="wynik">
-            <label>Wynik:</label>
-            <div id="wynik-tekst"></div>
-        </div>
+    </div>
+    <div id="content">
+        <h1>Program Szyfrujący</h1>
+
+        <h2>Szyfrator</h2>
+        <input type="text" id="inputText" placeholder="Wprowadź tekst do zaszyfrowania">
+        <button onclick="encrypt()">Szyfruj</button>
+        <p>Zaszyfrowany tekst:</p>
+        <textarea id="encryptedText" readonly></textarea>
+
+        <hr>
+
+        <h2>Deszyfrator</h2>
+        <input type="password" id="inputPassword" placeholder="Wprowadź hasło do deszyfrowania">
+        <button onclick="decrypt()">Deszyfruj</button>
+        <p>Odszyfrowany tekst:</p>
+        <textarea id="decryptedText" readonly></textarea>
     </div>
     <script src="script.js"></script>
 </body>
