@@ -7,9 +7,8 @@ const encryptedText = document.getElementById("encryptedText");
 const inputPassword = document.getElementById("inputPassword");
 const decryptedText = document.getElementById("decryptedText");
 
-// Funkcja szyfrowania Cezara
 function caesarCipher(text, shift) {
-    const alphabet = "aąbcćdeęfghijklłmnńoóprsśtuvwxyzźż";
+    const alphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż";
     let result = "";
 
     for (let i = 0; i < text.length; i++) {
@@ -28,53 +27,100 @@ function caesarCipher(text, shift) {
     return result;
 }
 
-// Funkcja zmienia widoczność pola wyboru przesunięcia w zależności od wybranej metody szyfrowania
 function toggleShiftAmount() {
     const method = cipherMethodSelect.value;
-    if (method === "ceasar") {
-        shiftAmount.style.display = "inline-block";
-        shiftLabel.style.display = "inline-block";
-    } else {
-        shiftAmount.style.display = "none";
-        shiftLabel.style.display = "none";
-    }
+    shiftAmount.style.display = method === "ceasar" ? "inline-block" : "none";
+    shiftLabel.style.display = method === "ceasar" ? "inline-block" : "none";
 }
 
-// Wywołaj funkcję toggleShiftAmount() na początku, aby ukryć pole wyboru przesunięcia
-toggleShiftAmount();
-
-// Obsługa przycisku Szyfruj
 function encrypt() {
     const method = cipherMethodSelect.value;
-    if (method === "ceasar") {
-        const shift = parseInt(shiftAmount.value);
-        if (!isNaN(shift) && shift >= 1 && shift <= 34) {
-            const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoóprsśtuvwxyzźż]/g, '');
-            const encrypted = caesarCipher(textToEncrypt, shift);
+    switch (method) {
+        case "ceasar":
+            const shift = parseInt(shiftAmount.value);
+            if (!isNaN(shift) && shift >= 1 && shift <= 34) {
+                const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+                const encrypted = caesarCipher(textToEncrypt, shift);
+                encryptedText.value = encrypted;
+            } else {
+                alert("Proszę podać prawidłowe przesunięcie (1-34).");
+            }
+            break;
+        case "polibiusz":
+            const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+            const encrypted = polibiuszCipher(textToEncrypt);
             encryptedText.value = encrypted;
-        } else {
-            alert("Proszę podać prawidłowe przesunięcie (1-34).");
-        }
-    } else {
-        alert("Wybrano inną metodę szyfrowania. Szyfrowanie jest dostępne tylko dla metody Cezara z przesunięciem.");
+            break;
+        default:
+            alert("Wybrano inną metodę szyfrowania.");
+            break;
     }
 }
 
-// Obsługa przycisku Deszyfruj
 function decrypt() {
     const method = cipherMethodSelect.value;
-    if (method === "ceasar") {
-        const shift = parseInt(shiftAmount.value);
-        if (!isNaN(shift) && shift >= 1 && shift <= 34) {
-            const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoóprsśtuvwxyzźż]/g, '');
-            const decrypted = caesarCipher(textToDecrypt, -shift);
+    switch (method) {
+        case "ceasar":
+            const shift = parseInt(shiftAmount.value);
+            if (!isNaN(shift) && shift >= 1 && shift <= 34) {
+                const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+                const decrypted = caesarCipher(textToDecrypt, -shift);
+                decryptedText.value = decrypted;
+            } else {
+                alert("Proszę podać prawidłowe przesunięcie (1-34).");
+            }
+            break;
+        case "polibiusz":
+            const textToDecrypt = inputPassword.value.replace(/[^1-6 ]/g, ''); // Usuń niepotrzebne znaki
+            const decrypted = polibiuszDecipher(textToDecrypt);
             decryptedText.value = decrypted;
-        } else {
-            alert("Proszę podać prawidłowe przesunięcie (1-34).");
-        }
-    } else {
-        alert("Wybrano inną metodę szyfrowania. Deszyfrowanie jest dostępne tylko dla metody Cezara z przesunięciem.");
+            break;
+        default:
+            alert("Wybrano inną metodę szyfrowania.");
+            break;
     }
 }
 
-// ...
+const polibiuszTable = {
+    'b': '11', 'e': '12', 'r': '13', 'q': '14', 'ą': '15', 'ł': '16', 'p': '17', 
+    'o': '21', 'i': '22', 'ć': '23', 'l': '24', 's': '25', 'ś': '26', 'ż': '27',
+    'c': '31', 'k': '32', 'a': '33', 'h': '34', 'ę': '35', 'v': '36', 'w': '37', 
+    'd': '41', 'ń': '42', 'n': '43', 'u': '44', 'm': '45', 't': '46', 'ź': '47', 
+    'ó': '51', 'g': '52', 'j': '53', 't': '54', 'z': '55', 'y': '56', 'x': '57'
+};
+
+function polibiuszCipher(text) {
+    let result = '';
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i].toLowerCase();
+
+        if (polibiuszTable.hasOwnProperty(char)) {
+            result += polibiuszTable[char] + ' ';
+        } else {
+            result += text[i];
+        }
+    }
+
+    return result.trim();
+}
+
+function polibiuszDecipher(text) {
+    let result = '';
+    const pairs = text.split(' ');
+
+    for (const pair of pairs) {
+        if (pair === '') {
+            result += ' ';
+        } else {
+            for (const letter in polibiuszTable) {
+                if (polibiuszTable[letter] === pair) {
+                    result += letter;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
+}
