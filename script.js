@@ -1,4 +1,3 @@
-// Pobierz elementy formularza i przypisz je do zmiennych
 const cipherMethodSelect = document.getElementById("cipherMethod");
 const shiftAmount = document.getElementById("shiftAmount");
 const shiftLabel = document.getElementById("shiftLabel");
@@ -71,7 +70,7 @@ function decrypt() {
             }
             break;
         case "polibiusz":
-            const textToDecrypt = inputPassword.value.replace(/[^1-6 ]/g, ''); // Usuń niepotrzebne znaki
+            const textToDecrypt = inputPassword.value.replace(/[^1-6 ]/g, '');
             const decrypted = polibiuszDecipher(textToDecrypt);
             decryptedText.value = decrypted;
             break;
