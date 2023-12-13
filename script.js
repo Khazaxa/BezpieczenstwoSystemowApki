@@ -1,3 +1,7 @@
+// TO DO
+// popraw polibiusza
+
+
 const cipherMethodSelect = document.getElementById("cipherMethod");
 const shiftAmount = document.getElementById("shiftAmount");
 const shiftLabel = document.getElementById("shiftLabel");
@@ -5,9 +9,9 @@ const inputText = document.getElementById("inputText");
 const encryptedText = document.getElementById("encryptedText");
 const inputPassword = document.getElementById("inputPassword");
 const decryptedText = document.getElementById("decryptedText");
+const alphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż";
 
-function caesarCipher(text, shift) {
-    const alphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż";
+function caesarCipher(text, shift) {    
     let result = "";
 
     for (let i = 0; i < text.length; i++) {
@@ -35,7 +39,7 @@ function toggleShiftAmount() {
 function encrypt() {
     const method = cipherMethodSelect.value;
     switch (method) {
-        case "ceasar":
+        case "ceasar": {
             const shift = parseInt(shiftAmount.value);
             if (!isNaN(shift) && shift >= 1 && shift <= 34) {
                 const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
@@ -45,10 +49,24 @@ function encrypt() {
                 alert("Proszę podać prawidłowe przesunięcie (1-34).");
             }
             break;
-        case "polibiusz":
+        }
+        case "polibiusz": {
             const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
             const encrypted = polibiuszCipher(textToEncrypt);
             encryptedText.value = encrypted;
+            break;
+        }
+        case "trithemius": {
+            const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+            const encrypted = trithemiusCipher(textToEncrypt);
+            encryptedText.value = encrypted;
+            break;
+        }
+        case "vigener":
+            // vigenere cipher
+            break;
+        case "playfair":
+            // playfair cipher
             break;
         default:
             alert("Wybrano inną metodę szyfrowania.");
@@ -59,7 +77,7 @@ function encrypt() {
 function decrypt() {
     const method = cipherMethodSelect.value;
     switch (method) {
-        case "ceasar":
+        case "ceasar": {
             const shift = parseInt(shiftAmount.value);
             if (!isNaN(shift) && shift >= 1 && shift <= 34) {
                 const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
@@ -69,10 +87,24 @@ function decrypt() {
                 alert("Proszę podać prawidłowe przesunięcie (1-34).");
             }
             break;
-        case "polibiusz":
+        }
+        case "polibiusz": {
             const textToDecrypt = inputPassword.value.replace(/[^1-6 ]/g, '');
             const decrypted = polibiuszDecipher(textToDecrypt);
             decryptedText.value = decrypted;
+            break;
+        }
+        case "trithemius": {
+            const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+            const decrypted = trithemiusDecipher(textToDecrypt);
+            decryptedText.value = decrypted;
+            break;
+        }
+        case "vigener":
+            // vigenere decipher
+            break;
+        case "playfair":
+            // playfair decipher
             break;
         default:
             alert("Wybrano inną metodę szyfrowania.");
@@ -122,4 +154,50 @@ function polibiuszDecipher(text) {
     }
 
     return result;
+}
+
+function trithemiusCipher(text) {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+        let index = alphabet.indexOf(text[i].toLowerCase());
+        if (index !== -1) {
+            let newIndex = (index + i + 1) % alphabet.length;
+            let newChar = alphabet[newIndex];
+            result += text[i] === text[i].toUpperCase() ? newChar.toUpperCase() : newChar;
+        } else {
+            result += text[i];
+        }
+    }
+    return result;
+}
+
+function trithemiusDecipher(text) {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+        let index = alphabet.indexOf(text[i].toLowerCase());
+        if (index !== -1) {
+            let newIndex = (index - i - 1 + alphabet.length) % alphabet.length;
+            let newChar = alphabet[newIndex];
+            result += text[i] === text[i].toUpperCase() ? newChar.toUpperCase() : newChar;
+        } else {
+            result += text[i];
+        }
+    }
+    return result;
+}
+
+function vigenereCipher(text) {
+    // vigenere
+}
+
+function vigenereDecipher(text) {
+    // vigenere
+}
+
+function playfairCipher(text) {
+    // playfair
+}
+
+function playfairDecipher(text) {
+    // playfair
 }
