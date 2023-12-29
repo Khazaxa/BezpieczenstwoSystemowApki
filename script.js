@@ -224,11 +224,3 @@ function vigenereDecipher(text, key) {
     }
     return decryptedText;
 }
-
-function playfairCipher(text) {
-    // playfair
-}
-
-function playfairDecipher(text) {
-    // playfair
-}
