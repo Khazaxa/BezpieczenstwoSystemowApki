@@ -16,7 +16,6 @@
                 <option value="trithemius">Trithemiusza</option>
                 <option value="vigener">Vigenera</option>
                 <option value="playfair">Playfaira</option>
-                <!-- Dodaj inne metody szyfrowania, jeśli są potrzebne -->
             </select>
             <label for="shiftAmount" id="shiftLabel"><strong>Przesunięcie:</strong></label>
             <select id="shiftAmount">
@@ -33,6 +32,7 @@
 
         <h2>Szyfrator</h2>
         <input type="text" id="inputText" placeholder="Wprowadź tekst do zaszyfrowania">
+        <input type="text" id="vigenereKey" placeholder="Wprowadź klucz (tylko dla Vigenère’a)" style="display: none;">
         <button onclick="encrypt()">Szyfruj</button>
         <p>Zaszyfrowany tekst:</p>
         <textarea id="encryptedText" readonly></textarea>

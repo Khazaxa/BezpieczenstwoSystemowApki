@@ -1,7 +1,3 @@
-// TO DO
-// popraw polibiusza
-
-
 const cipherMethodSelect = document.getElementById("cipherMethod");
 const shiftAmount = document.getElementById("shiftAmount");
 const shiftLabel = document.getElementById("shiftLabel");
@@ -32,8 +28,11 @@ function caesarCipher(text, shift) {
 
 function toggleShiftAmount() {
     const method = cipherMethodSelect.value;
+    const isVigenere = method === "vigener";
+
     shiftAmount.style.display = method === "ceasar" ? "inline-block" : "none";
     shiftLabel.style.display = method === "ceasar" ? "inline-block" : "none";
+    vigenereKey.style.display = isVigenere ? "inline-block" : "none";
 }
 
 function encrypt() {
@@ -56,14 +55,17 @@ function encrypt() {
             encryptedText.value = encrypted;
             break;
         }
-        case "trithemius": {
+        case "vigener": {
+            const key = document.getElementById('vigenereKey').value;
             const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
-            const encrypted = trithemiusCipher(textToEncrypt);
+            const encrypted = vigenereCipher(textToEncrypt, key);
             encryptedText.value = encrypted;
             break;
         }
         case "vigener":
-            // vigenere cipher
+            const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+            const encrypted = vigenereCipher(textToEncrypt);
+            encryptedText.value = encrypted;
             break;
         case "playfair":
             // playfair cipher
@@ -100,9 +102,13 @@ function decrypt() {
             decryptedText.value = decrypted;
             break;
         }
-        case "vigener":
-            // vigenere decipher
+        case "vigener": {
+            const key = document.getElementById('vigenereKey').value;
+            const textToDecrypt = inputPassword.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
+            const decrypted = vigenereDecipher(textToDecrypt, key);
+            decryptedText.value = decrypted;
             break;
+        }
         case "playfair":
             // playfair decipher
             break;
@@ -155,10 +161,6 @@ function polibiuszDecipher(text) {
     return result;
 }
 
-
-
-
-
 function trithemiusCipher(text) {
     let result = '';
     for (let i = 0; i < text.length; i++) {
@@ -189,12 +191,38 @@ function trithemiusDecipher(text) {
     return result;
 }
 
-function vigenereCipher(text) {
-    // vigenere
+function vigenereCipher(text, key) {
+    let encryptedText = '';
+    for (let i = 0, j = 0; i < text.length; i++) {
+        const char = text[i];
+        const keyChar = key[j % key.length];
+        if (alphabet.includes(char)) {
+            const shift = alphabet.indexOf(keyChar);
+            const encryptedChar = alphabet[(alphabet.indexOf(char) + shift) % alphabet.length];
+            encryptedText += encryptedChar;
+            j++;
+        } else {
+            encryptedText += char;
+        }
+    }
+    return encryptedText;
 }
 
-function vigenereDecipher(text) {
-    // vigenere
+function vigenereDecipher(text, key) {
+    let decryptedText = '';
+    for (let i = 0, j = 0; i < text.length; i++) {
+        const char = text[i];
+        const keyChar = key[j % key.length];
+        if (alphabet.includes(char)) {
+            const shift = alphabet.indexOf(keyChar);
+            const decryptedChar = alphabet[(alphabet.indexOf(char) - shift + alphabet.length) % alphabet.length];
+            decryptedText += decryptedChar;
+            j++;
+        } else {
+            decryptedText += char;
+        }
+    }
+    return decryptedText;
 }
 
 function playfairCipher(text) {
