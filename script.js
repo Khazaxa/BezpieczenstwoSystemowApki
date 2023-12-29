@@ -55,10 +55,9 @@ function encrypt() {
             encryptedText.value = encrypted;
             break;
         }
-        case "vigener": {
-            const key = document.getElementById('vigenereKey').value;
+        case "trithemius": {
             const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
-            const encrypted = vigenereCipher(textToEncrypt, key);
+            const encrypted = trithemiusCipher(textToEncrypt);
             encryptedText.value = encrypted;
             break;
         }
@@ -66,9 +65,6 @@ function encrypt() {
             const textToEncrypt = inputText.value.toLowerCase().replace(/[^aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż]/g, '');
             const encrypted = vigenereCipher(textToEncrypt);
             encryptedText.value = encrypted;
-            break;
-        case "playfair":
-            // playfair cipher
             break;
         default:
             alert("Wybrano inną metodę szyfrowania.");
@@ -109,9 +105,6 @@ function decrypt() {
             decryptedText.value = decrypted;
             break;
         }
-        case "playfair":
-            // playfair decipher
-            break;
         default:
             alert("Wybrano inną metodę szyfrowania.");
             break;
