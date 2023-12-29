@@ -116,7 +116,7 @@ const polibiuszTable = {
     'b': '11', 'e': '12', 'r': '13', 'q': '14', 'ą': '15', 'ł': '16', 'p': '17', 
     'o': '21', 'i': '22', 'ć': '23', 'l': '24', 's': '25', 'ś': '26', 'ż': '27',
     'c': '31', 'k': '32', 'a': '33', 'h': '34', 'ę': '35', 'v': '36', 'w': '37', 
-    'd': '41', 'ń': '42', 'n': '43', 'u': '44', 'm': '45', 't': '46', 'ź': '47', 
+    'd': '41', 'ń': '42', 'n': '43', 'u': '44', 'm': '45', 'f': '46', 'ź': '47', 
     'ó': '51', 'g': '52', 'j': '53', 't': '54', 'z': '55', 'y': '56', 'x': '57'
 };
 
@@ -138,23 +138,26 @@ function polibiuszCipher(text) {
 
 function polibiuszDecipher(text) {
     let result = '';
-    const pairs = text.split(' ');
+    const pairs = text.split(' '); 
 
     for (const pair of pairs) {
-        if (pair === '') {
-            result += ' ';
-        } else {
-            for (const letter in polibiuszTable) {
-                if (polibiuszTable[letter] === pair) {
-                    result += letter;
-                    break;
-                }
+        let found = false;
+        for (const letter in polibiuszTable) {
+            if (polibiuszTable[letter] === pair) {
+                result += letter;
+                found = true;
+                break;
             }
         }
+        if (!found) result += '?'; 
     }
 
     return result;
 }
+
+
+
+
 
 function trithemiusCipher(text) {
     let result = '';
